@@ -132,9 +132,48 @@ Error: Cannot find package 'babel-plugin-transform-class-properties' imported fr
     at loadPrivatePartialConfig.next (<anonymous>)
     at loadPartialConfig (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/@babel/core/lib/config/partial.js:115:25)
     at loadPartialConfig.next (<anonymous>)
-    at step (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:269:25)
-    at /home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:273:13
-    at async.call.result.err.err (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:223:11)
+    at step (/home/dos/Desktop/DevCampsnos salta un ultimo error, es sencillo:
+
+$ npm start
+
+> es6-starter@1.0.0 start
+> webpack serve --config webpack/dev.config.js
+
+<i> [webpack-dev-server] [HPM] Proxy created: /node-0  -> https://api.github.com
+<i> [webpack-dev-server] [HPM] Proxy created: /node-1  -> https://registry.npmjs.org
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:3000/, http://[::1]:3000/
+<i> [webpack-dev-server] Content not from webpack is served from '/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/static' directory
+<i> [webpack-dev-server] 404s will fallback to '/index.html'
+node:internal/fs/watchers:247
+    const error = new UVException({
+                  ^
+
+Error: EMFILE: too many open files, watch '/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/static'
+    at FSWatcher.<computed> (node:internal/fs/watchers:247:19)
+    at Object.watch (node:fs:2550:36)
+    at createFsWatchInstance (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:119:15)
+    at setFsWatchListener (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:166:15)
+    at NodeFsHandler._watchWithNodeFs (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:331:14)
+    at NodeFsHandler._handleDir (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:567:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NodeFsHandler._addToNodeFs (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:617:16)
+    at async /home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/index.js:451:21
+    at async Promise.all (index 0)
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/index.js:647:10)
+    at NodeFsHandler._addToNodeFs (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/lib/nodefs-handler.js:645:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/chokidar/index.js:451:21
+    at async Promise.all (index 0) {
+  errno: -24,
+  syscall: 'watch',
+  code: 'EMFILE',
+  path: '/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/static',
+  filename: '/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/static'
+}
+
+Node.js v22.14.0/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:223:11)
     at /home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:50:45
     at step (/home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:287:14)
     at /home/dos/Desktop/DevCamps/JavaScript-Course/13_ES6_MODULES/13_00_testNode/node_modules/gensync/index.js:273:13
@@ -214,7 +253,35 @@ BREAKING CHANGE: webpack < 5 used to allow to use an entrypoint as splitChunk. T
 Remove this entrypoint and add modules to cache group's 'test' instead. If you need modules to be evaluated on startup, add them to the existing entrypoints (make them arrays). See migration guide of more info.
 
 webpack 5.99.5 compiled with 3 errors in 1634 ms
+module.exports = {
+'/node-0': {
+target: 'https://api.github.com',
+secure: true,
+headers: {
+'Host': 'api.github.com',
+'Cookie': '' // send cookie on demand
+},
+pathRewrite: function (path) {
+return path.replace(/^\/node-0/, ''); // remove '/node-0' prefix when requesting
+}
+},
+'/node-1': {
+target: 'https://registry.npmjs.org',
+secure: true,
+headers: {
+'Host': 'registry.npmjs.org',
+'Cookie': '' // send cookie on demand
+},
+pathRewrite: function (path) {
+return path.replace(/^\/node-1/, ''); // remove '/node-1' prefix when requesting
+}
+}
+};
 
+
+SOLVED BY:
+1. Reformating .babelrc to new v7 array format
+2.
 
    */
 
@@ -297,6 +364,8 @@ module.exports = merge(webpackCommon, {
         warnings: true
       }
     },
-    proxy: Array.isArray(proxyRules) ? proxyRules : [proxyRules]
-  }
+    // OLD: proxy: Array.isArray(proxyRules) ? proxyRules : [proxyRules]
+    proxy: require('../proxy/rules')
+  },
+  
 });
