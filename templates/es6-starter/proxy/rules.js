@@ -1,24 +1,29 @@
-module.exports = {
-  '/node-0': {
+/*
+ * 2025 Update fixed:
+ * Refactorized code to newer context array-alike system
+*/
+
+module.exports = [
+  {
+    context: ['/node-0'],
     target: 'https://api.github.com',
+    changeOrigin: true,
     secure: true,
     headers: {
-      'Host': 'api.github.com',
-      'Cookie': '' // send cookie on demand
+      Host: 'api.github.com',
+      Cookie: ''
     },
-    pathRewrite: function (path) {
-      return path.replace(/^\/node-0/, ''); // remove '/node-0' prefix when requesting
-    }
+    pathRewrite: (path) => path.replace(/^\/node-0/, '')
   },
-  '/node-1': {
-    target: 'https://registry.npmjs.org',
-    secure: true,
-    headers: {
-      'Host': 'registry.npmjs.org',
-      'Cookie': '' // send cookie on demand
-    },
-    pathRewrite: function (path) {
-      return path.replace(/^\/node-1/, ''); // remove '/node-1' prefix when requesting
-    }
-  }
-};
+{
+  context: ['/node-1'],
+  target: 'https://registry.npmjs.org',
+  changeOrigin: true,
+  secure: true,
+  headers: {
+    Host: 'registry.npmjs.org',
+    Cookie: ''
+  },
+  pathRewrite: (path) => path.replace(/^\/node-1/, '')
+}
+];
