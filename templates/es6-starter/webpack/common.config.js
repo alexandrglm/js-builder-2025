@@ -52,10 +52,17 @@ module.exports = {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
+          name: 'vendors',
           chunks: 'all'
         }
       }
     }
+  },
+  entry: {
+    app: {
+      import: './src/bootstrap.js',
+      dependOn: 'vendors'
+    },
+    vendors: './src/vendor.js'
   }
-};
+}
