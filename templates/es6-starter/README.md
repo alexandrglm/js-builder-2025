@@ -43,7 +43,7 @@ mini-css-extract-plugin@^2.7.6
 ```
 - Every dependences:
 ```json
-"devDependencies": {
+  "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/plugin-transform-class-properties": "^7.23.3",
     "@babel/plugin-transform-object-rest-spread": "^7.23.4",
@@ -60,7 +60,6 @@ mini-css-extract-plugin@^2.7.6
     "eslint": "^9.24.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-webpack-plugin": "^5.0.0",
-    "express": "^5.1.0",
     "file-loader": "^6.2.0",
     "glob": "^11.0.1",
     "html-webpack-plugin": "^5.6.3",
@@ -75,7 +74,15 @@ mini-css-extract-plugin@^2.7.6
     "webpack-dev-middleware": "^7.4.2",
     "webpack-dev-server": "^5.2.1",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "core-js": "^3.36.1",
+    "express": "^5.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "regenerator-runtime": "^0.14.1"
   }
+}
 ```
 ***
 # Code Changes (breaking changes fixes):
