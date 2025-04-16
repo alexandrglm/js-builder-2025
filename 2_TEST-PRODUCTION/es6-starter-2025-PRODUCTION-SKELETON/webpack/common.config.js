@@ -1,8 +1,10 @@
 /* 
-FIXED TO 2025
-
-pending add all changes
-
+* FIXES
+*
+* SplitChunkPlugin callbacks from webpack
+* WebPack loader new syntax/types for served filetypes (JSON, AUDIO, VIDEO, IMG,etc)
+* New Chunks management with updated method (optimizitation) and syntax
+* Server timeout for serving files reduced
 */
 
 const { SplitChunksPlugin } = require('webpack');

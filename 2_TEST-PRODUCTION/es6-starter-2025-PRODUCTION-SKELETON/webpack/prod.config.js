@@ -1,7 +1,10 @@
 /*
-FIXED TO 2025
-
-Pendning to explain changes
+ * FIXES:
+ * 
+ * New Webpack syntax -> ES6 modules & latest webpack version
+ * Deprecates some old webpack plugin, parsed to newest methods:
+ * Clean/Copy/Extract/Uglify -> Terser + css-minimizer
+ * 
 */
 
 const path = require('path');
@@ -23,10 +26,11 @@ module.exports = merge(webpackCommon, {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, '../dist'),
-                       filename: '[name]-[contenthash].min.js',
-                       chunkFilename: '[id]-[contenthash].js',
-                       publicPath: '/',
-                         assetModuleFilename: '[name]-[hash][ext]'
+    // 
+    filename: '[name]-[contenthash].min.js',
+    chunkFilename: '[id]-[contenthash].js',
+    publicPath: '/',
+    assetModuleFilename: '[name]-[hash][ext]'
   },
 
   module: {
@@ -76,39 +80,45 @@ module.exports = merge(webpackCommon, {
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(__dirname, '../static/index.html'),
-                          favicon: path.resolve(__dirname, '../static/favicon.ico'),
-                          minify: {
-                            removeComments: true,
-                            collapseWhitespace: true,
-                            removeRedundantAttributes: true,
-                            useShortDoctype: true,
-                            removeEmptyAttributes: true,
-                            removeStyleLinkTypeAttributes: true,
-                            keepClosingSlash: true,
-                            minifyJS: true,
-                            minifyCSS: true,
-                            minifyURLs: true
+      
+      //
+      favicon: path.resolve(__dirname, '../static/favicon.ico'),
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
                           }
     }),
     new CopyPlugin({
       patterns: [
         {
           from: path.resolve(__dirname, '../static'),
-                   globOptions: {
-                     ignore: ['**/index.html', '**/favicon.ico']
-                   }
+
+          //
+          globOptions: {
+            ignore: ['**/index.html', '**/favicon.ico']
+          }
         }
       ]
     }),
     new CleanWebpackPlugin(),
-                       new DefinePlugin({
-                         'process.env': {
-                           NODE_ENV: JSON.stringify('production')
-                         }
-                       }),
-                       new MiniCssExtractPlugin({
-                         filename: '[name]-[contenthash].min.css'
-                       })
+    //      
+    new DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name]-[contenthash].min.css'
+    })
   ]
+  
 });
 

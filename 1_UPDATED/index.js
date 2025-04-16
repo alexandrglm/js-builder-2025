@@ -9,7 +9,7 @@ const QUESTIONS = [
   {
     name: 'project-choice',
     type: 'list',
-    message: 'What project template would you like to generate?',
+    message: 'This fork, original from @bottega-code-school/js-builder, has been updated to React18, Babel 7.\nWhat project template would you like to generate?',
     choices: CHOICES
   },
   {
