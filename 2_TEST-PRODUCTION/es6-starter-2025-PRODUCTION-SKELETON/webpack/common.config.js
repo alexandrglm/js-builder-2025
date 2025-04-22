@@ -5,16 +5,16 @@
 * WebPack loader new syntax/types for served filetypes (JSON, AUDIO, VIDEO, IMG,etc)
 * New Chunks management with updated method (optimizitation) and syntax
 * Server timeout for serving files reduced
+* Parsed export default from old object -> to Array
 */
 
-const { SplitChunksPlugin } = require('webpack');
-
-module.exports = {
+export default {
   entry: {
-    app: [
-      './src/bootstrap.js'
-    ],
-    vendor: './src/vendor.js'
+    app: {
+      import: './src/bootstrap.js',
+      dependOn: 'vendors'
+    },
+    vendors: './src/vendor.js'
   },
 
   resolve: {
@@ -59,12 +59,5 @@ module.exports = {
         }
       }
     }
-  },
-  entry: {
-    app: {
-      import: './src/bootstrap.js',
-      dependOn: 'vendors'
-    },
-    vendors: './src/vendor.js'
   }
-}
+};
