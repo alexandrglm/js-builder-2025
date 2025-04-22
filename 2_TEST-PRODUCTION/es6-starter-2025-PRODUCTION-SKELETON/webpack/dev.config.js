@@ -10,26 +10,51 @@
  * 'devServer' configs and calls updates to Webpack 5
  * SourceMaps / Asssets confs. fixed
  * Removed --watch from packahge.json as long as --watch is "included" when "serve"-ing
+ * 
+ * Modules syntax really  parsed to ES6/7
 */
 
-const path = require('path');
-const { merge } = require('webpack-merge');
-const webpackCommon = require('./common.config');
 
-const env = require('../env');
-const proxyRules = require('../proxy/rules');
 
-// webpack plugins
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { DefinePlugin } = require('webpack');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-module.exports = merge(webpackCommon, {
+
+import path from 'path'
+//const path = require('path');
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { merge } from 'webpack-merge'
+// const { merge } = require('webpack-merge');
+
+import webpack from 'webpack';
+const { DefinePlugin } = webpack;
+// const { DefinePlugin} = require('webpack')
+
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+// const = require('html-webpack-plugin');
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+
+import webpackCommon from './common.config.js';
+// const webpackCommon = require('./common.config');
+import  env from '../env.js'
+import proxyRules from '../proxy/rules.js'
+//const env = require('../env');
+//const proxyRules = require('../proxy/rules');
+
+//  __dirname is not defined
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+
+
+
+export default merge(webpackCommon, {
   devtool: 'eval-cheap-module-source-map',
   mode: 'development',
   output: {
-    path: path.resolve
-    (__dirname, '../static/dist'),
+    path: path.resolve(__dirname, '../static/dist'),
     filename: '[name].js',
     chunkFilename: '[id]-chunk.js',
     publicPath: '/',
@@ -37,13 +62,6 @@ module.exports = merge(webpackCommon, {
   },
 
   module: {
-    /*
-     * New array format and new props-attrbs. including:
-     * 
-     * 
-     * 
-     * 
-    */ 
     rules: [
       {
         test: /\.s?css$/,
@@ -56,7 +74,6 @@ module.exports = merge(webpackCommon, {
               sourceMap: true
             }
           },
-          // explicit sass type inclusion
           'postcss-loader',
           {
             loader: 'sass-loader',
@@ -77,11 +94,9 @@ module.exports = merge(webpackCommon, {
     }),
     new HtmlWebpackPlugin({
       inject: true,
-      template: path.resolve
-      (__dirname, '../static/index.html'),
-      favicon: path.resolve(__dirname, '../static/favicon.ico')
+      template: path.resolve(__dirname, '../static/index.html'),
+                          favicon: path.resolve(__dirname, '../static/favicon.ico')
     }),
-    // old HotModuleReplacement callback
     new ReactRefreshWebpackPlugin()
   ],
 
@@ -102,8 +117,6 @@ module.exports = merge(webpackCommon, {
         warnings: true
       }
     },
-    // OLD: proxy: Array.isArray(proxyRules) ? proxyRules : [proxyRules]
-    proxy: require('../proxy/rules')
-  },
-  
-});
+    proxy: Array.isArray(proxyRules) ? proxyRules : [proxyRules]
+  }
+})
